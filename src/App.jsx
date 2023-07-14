@@ -3,7 +3,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import { About, Cocktail, Error, HomeLayout, Landing, Newsletter, ErrorElement} from "./pages";
 
-import {Loader as LandingLoader} from '../src/pages/Landing'
+import {Loader as LandingLoader} from '../src/pages/Landing';
+import {Loader as CocktailLoader} from '../src/pages/Cocktail';
+import {action as NewsletterAction} from '../src/pages/Newsletter';
+
 
 const route = createBrowserRouter([
   {
@@ -22,8 +25,10 @@ const route = createBrowserRouter([
       },
 
       {
-        path : '/cocktail/:id',
-        element : <Cocktail />
+        path : 'cocktail/:id',
+        element : <Cocktail />,
+        loader : CocktailLoader,
+        errorElement : <ErrorElement />,
       },
 
       {
@@ -50,7 +55,8 @@ const route = createBrowserRouter([
 
       {
         path : 'Newsletter',
-        element : <Newsletter />
+        element : <Newsletter />,
+        action : NewsletterAction,
       },
 
       {
