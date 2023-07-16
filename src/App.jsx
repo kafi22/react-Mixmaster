@@ -6,6 +6,17 @@ import { About, Cocktail, Error, HomeLayout, Landing, Newsletter, ErrorElement} 
 import {Loader as LandingLoader} from '../src/pages/Landing';
 import {Loader as CocktailLoader} from '../src/pages/Cocktail';
 import {action as NewsletterAction} from '../src/pages/Newsletter';
+import { QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+
+
+const queryClient = new QueryClient({
+defaultOptions : {
+  queries : {
+    staleTime : 1000 * 60 * 5
+  }
+}
+})
 
 
 const route = createBrowserRouter([
@@ -72,7 +83,7 @@ const route = createBrowserRouter([
 ])
 
 const App = () => {
-
+  <QueryClientProvider client={queryClient} />
   return <RouterProvider router={route} />
 }
 
