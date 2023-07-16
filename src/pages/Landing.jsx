@@ -6,9 +6,11 @@ import SearchList from '../Component/SearchList';
 
 const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=`
 
-export const Loader = async () => {
+export const Loader = async ({request}) => {
+  const getSearchUrl = new URL(request.url)
+  console.log(getSearchUrl)
 
-  const searchItem = '';
+  const searchItem = getSearchUrl.searchParams.get("search") || '';
   const response = await axios.get(`${url}${searchItem}`)
   return {drinks: response.data.drinks, searchItem}
   

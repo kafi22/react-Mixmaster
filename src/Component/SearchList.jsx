@@ -7,7 +7,7 @@ const SearchList = ({searchItem}) => {
   return (
     <Wrapper>
       <Form>
-        <input type="search" name='search' defaultValue='vodka' />
+        <input type="search" name='search' defaultValue={searchItem} />
         <button type='submit' className='search-btn'>Search here</button>
       </Form>
     </Wrapper>
