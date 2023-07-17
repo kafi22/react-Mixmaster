@@ -1,10 +1,8 @@
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
 import { About, Cocktail, Error, HomeLayout, Landing, Newsletter, ErrorElement} from "./pages";
-
-import {Loader as LandingLoader} from '../src/pages/Landing';
-import {Loader as CocktailLoader} from '../src/pages/Cocktail';
+import {loader as LandingLoader} from '../src/pages/Landing';
+import {loader as CocktailLoader} from '../src/pages/Cocktail';
 import {action as NewsletterAction} from '../src/pages/Newsletter';
 import { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -31,14 +29,14 @@ const route = createBrowserRouter([
         element : (
           <Landing />
         ),
-        loader : LandingLoader,
+        loader : LandingLoader(queryClient),
         errorElement : <ErrorElement />,
       },
 
       {
         path : 'cocktail/:id',
         element : <Cocktail />,
-        loader : CocktailLoader,
+        loader : CocktailLoader(queryClient),
         errorElement : <ErrorElement />,
       },
 
@@ -70,10 +68,7 @@ const route = createBrowserRouter([
         action : NewsletterAction,
       },
 
-      {
-        path : 'Cocktail',
-        element : <Cocktail />
-      },
+      
 
      
     ]
@@ -83,8 +78,13 @@ const route = createBrowserRouter([
 ])
 
 const App = () => {
-  <QueryClientProvider client={queryClient} />
-  return <RouterProvider router={route} />
+  
+    return (
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={route} />
+      </QueryClientProvider>
+    )
+  
 }
 
 export default App

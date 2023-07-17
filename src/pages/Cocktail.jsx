@@ -5,27 +5,47 @@ import { useLoaderData, Link, Navigate } from 'react-router-dom';
 
 const singleUrl = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=`;
 
-export const Loader = async(data) => {
+import { useQuery } from '@tanstack/react-query';
 
-  const id = data.params.id
-  const response = await axios.get(`${singleUrl}${id}`)
-  return {response, id}
+const getSingleQuery = (id) => {
+
+  return {
+    queryKey : ["cocktail", id],
+    queryFn : async () => {
+      const {data} = await axios.get(`${singleUrl}${id}`)
+      return data
+    }
+  }
+
+}
+
+export const loader = 
+(queryClient) => 
+async({params}) => {
+  const {id} = params
+
+  await queryClient.ensureQueryData(getSingleQuery(id))
+  return { id}
 
 }
 
 
 const Cocktail = () => {
- const {id, response} = useLoaderData()
+ const {id} = useLoaderData()
 
- if(!response.data) {
+ const {data} = useQuery(getSingleQuery(id))
+
+ console.log(data)
+
+ if(!data) {
   return <Navigate to='/' />
  }
  
- const singleItem = response.data.drinks[0];
+ const singleItem = data.drinks[0];
 
 
  const {
-  dateModified:data, 
+
   idDrink:getId,
   strAlcoholic:info, 
   strCategory:category, 
@@ -37,11 +57,11 @@ const Cocktail = () => {
 
 
 
-console.log(singleItem)
+
 
 const validIncredients = Object.keys(singleItem).filter((key) => key.startsWith("strIngredient") && singleItem[key] !== null).map(item => singleItem[item]);
 
-console.log(validIncredients)
+
 
 const getAllingredients = validIncredients.map((item, index) => {
  return <h4 key={index}>{item} {index < validIncredients.length - 1 ? ',' : ''} </h4>

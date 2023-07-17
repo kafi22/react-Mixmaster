@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 const Wrapper = styled.div`
 height : 100vh;
 display : flex;
-width : 100vw;
+width : 100%;
 justify-content : center;
 align-items : center;
 flex-direction : column;
